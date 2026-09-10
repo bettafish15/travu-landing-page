@@ -1,0 +1,74 @@
+/* ============================================================
+   Trà Vũ — Design Tokens
+   Extracted from the 20-page portfolio deck (design-refs/).
+   Colors were pixel-sampled from the rendered pages; do not
+   invent new colors — this brand runs on exactly three.
+   ============================================================ */
+
+:root {
+  /* ---- Brand palette (sampled, exact) ---- */
+  --green: #216C53;        /* primary: page bg (dark sections) AND body text on cream */
+  --cream: #FFFEF2;        /* primary: page bg (light sections) AND body text on green */
+  --gold:  #C2A878;        /* headings, section labels, rules, frames, leaf badge */
+
+  /* Derived tints — use sparingly, only for borders/hover states */
+  --gold-soft: #D7C6A2;    /* lighter gold seen in anti-aliased rules */
+  --green-soft: #3B7D66;   /* hover/darken step on green */
+
+  /* ---- Semantic aliases (use these in components) ---- */
+  --bg-light: var(--cream);
+  --bg-dark: var(--green);
+  --text-on-light: var(--green);
+  --text-on-dark: var(--cream);
+  --accent: var(--gold);
+
+  /* ---- Typography ----
+     Display/headings: Playfair Display (Italic for big titles), vietnamese subset
+     Body/UI: Quicksand, vietnamese subset
+     Verify rendering against design-refs before swapping families. */
+  --font-display: 'Playfair Display', 'Noto Serif', Georgia, serif;
+  --font-body: 'Quicksand', 'Noto Sans', system-ui, sans-serif;
+
+  --text-display: clamp(2.5rem, 5vw, 4rem);     /* italic gold page titles */
+  --text-h2: clamp(1.75rem, 3vw, 2.5rem);       /* project names */
+  --text-h3: 1.25rem;                            /* serif sub-headers (client · type) */
+  --text-label: 1.0625rem;                       /* gold section labels: Bối Cảnh… */
+  --text-body: 1rem;
+  --text-caption: 0.875rem;                      /* italic footer: · Hồ sơ dự án tiêu biểu · */
+
+  --leading-body: 1.7;      /* deck uses generous line-height on Vietnamese text */
+  --leading-tight: 1.15;
+
+  /* ---- Shape & structure ---- */
+  --radius-card: 24px;      /* photo cards */
+  --radius-frame: 32px;     /* large hairline frames around imagery */
+  --border-hairline: 1px solid var(--gold);
+  --rule-label: 2px solid var(--gold);   /* short rule to the right of section labels */
+
+  /* ---- Spacing scale ---- */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6rem;
+
+  /* ---- Layout ---- */
+  --content-max: 1200px;
+  --section-pad-y: var(--space-6);
+}
+
+/* Section color modes — every section is one of these two. */
+.section-light {
+  background: var(--bg-light);
+  color: var(--text-on-light);
+}
+.section-dark {
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+}
+.section-light h1, .section-light h2, .section-light h3,
+.section-dark h1, .section-dark h2, .section-dark h3 {
+  color: var(--accent);
+  font-family: var(--font-display);
+}

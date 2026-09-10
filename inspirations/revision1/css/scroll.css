@@ -1,0 +1,898 @@
+/* ============================================================
+   Trà Vũ — inspirations/revision1 · "Tea Ceremony Scroll"
+   One continuous hanging scroll: a 1px gold spine runs down the
+   center of the page; titles and leaf-badge numerals sit ON the
+   axis, prose and photos alternate left/right off it.
+   Load order: ../../css/tokens.css → ../../css/base.css → this.
+   ============================================================ */
+
+:root {
+  --spine-gap: 4rem;
+  --measure: 34em;
+  --panel-w: min(460px, 86vw);
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+section[id] { scroll-margin-top: 2rem; }
+
+/* ------------------------------------------------------------
+   Motifs mirrored from css/components.css (leaf badge, hairline
+   frame, photo card, label block). components.css is not linked
+   here because it also carries the old .case-study grid.
+   ------------------------------------------------------------ */
+.leaf-badge {
+  width: 44px;
+  height: 44px;
+  background: var(--accent);
+  border-radius: 0 50% 50% 50%;
+  display: grid;
+  place-items: center;
+  color: var(--cream);
+  font-weight: 600;
+}
+.hairline-frame {
+  border: var(--border-hairline);
+  border-radius: var(--radius-frame);
+}
+.photo-card {
+  border: var(--border-hairline);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.photo-card img { width: 100%; height: 100%; object-fit: cover; }
+.label-block { margin-top: var(--space-3); }
+.label-block h3 {
+  font-family: var(--font-body); /* labels are Quicksand bold in the deck */
+  font-size: var(--text-label);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+.label-block h3::after {
+  content: "";
+  flex: 0 0 56px;
+  margin-left: auto;
+  border-top: var(--rule-label);
+}
+.case-lines { list-style: none; padding: 0; }
+
+/* ------------------------------------------------------------
+   The spine
+   ------------------------------------------------------------ */
+.scroll-section {
+  position: relative;
+  isolation: isolate;             /* keeps the -1 line above the section bg */
+  padding-block: clamp(6rem, 12vh, 9rem);
+}
+.scroll-section::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--gold);
+  z-index: -1;                    /* under all content; text blocks occlude it */
+}
+.spine-start::before { top: auto; height: 140px; }   /* hero: line grows out of the art */
+.spine-end::before { content: none; }                /* contact draws its own, ending at the seal */
+
+/* Chapter numeral — a bead threaded on the line at each section's top */
+.spine-track {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  pointer-events: none;
+}
+
+/* Static badge placed on the axis (credentials "4") */
+.axis-badge {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-5) auto;
+}
+
+/* Text that sits on the axis interrupts the line with its own bg */
+.section-light .axis-break { background: var(--bg-light); }
+.section-dark .axis-break { background: var(--bg-dark); }
+
+.on-axis {
+  display: block;
+  max-width: var(--measure);
+  margin-inline: auto;
+  text-align: center;
+  padding-inline: var(--space-3);
+}
+
+/* Epigraph — caption promoted to a section opener bead on the line */
+.epigraph {
+  width: max-content;
+  max-width: 86%;
+  margin: 0 auto var(--space-4);
+  padding-inline: var(--space-2);
+  text-align: center;
+}
+
+/* Zigzag off the axis: [content] |spine| [content] */
+.off-axis {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--spine-gap) minmax(0, 1fr);
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+  align-items: start;
+}
+
+/* ------------------------------------------------------------
+   1 · Hero
+   ------------------------------------------------------------ */
+.hero { padding-bottom: var(--space-5); }
+.hero-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding-inline: var(--space-3);
+}
+.hero-logo { width: 90px; }
+.hero-title {
+  font-size: var(--text-display);
+  font-style: italic;
+  line-height: var(--leading-tight);
+  text-align: center;
+}
+.hero-sub { text-align: center; }
+.hero-art { margin-top: var(--space-4); }
+.hero-art img {
+  height: min(68vh, 640px);
+  width: auto;
+  max-width: 88vw;
+  object-fit: contain;
+}
+.hero-footer {
+  margin-top: var(--space-4);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-align: center;
+  padding-inline: var(--space-2);
+  position: relative;   /* sits over the sprouting line */
+}
+
+/* ------------------------------------------------------------
+   2 · Intro — the letter
+   ------------------------------------------------------------ */
+.intro-title {
+  font-size: var(--text-display);
+  font-style: italic;
+  margin-bottom: var(--space-5);
+}
+.intro-grid .intro-media {
+  grid-column: 1;
+  justify-self: end;
+  width: min(340px, 100%);
+}
+.intro-grid .intro-body {
+  grid-column: 3;
+  max-width: var(--measure);
+  margin-top: var(--space-6);
+}
+.intro-body p + p { margin-top: var(--space-3); }
+.intro-rule { margin: var(--space-4) 0 var(--space-2) auto; }
+.intro-signature {
+  text-align: right;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------
+   3 · Credentials — mirrored zigzag
+   ------------------------------------------------------------ */
+.credential + .axis-badge { margin-top: var(--space-6); }
+.axis-badge + .credential { margin-top: var(--space-6); }
+.credential-title {
+  font-size: var(--text-h2);
+  font-style: italic;
+  line-height: var(--leading-tight);
+}
+.credential-sub {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+}
+.credential-body p:not(.credential-sub):not(.caption-footer) { margin-top: var(--space-3); }
+.credential-body .caption-footer { margin-top: var(--space-4); }
+.credential-body--left { grid-column: 1; justify-self: end; max-width: 32em; text-align: left; }
+.credential-body--left .caption-footer { text-align: right; }
+.credential-body--right { grid-column: 3; justify-self: start; max-width: 32em; }
+.credential-media--right { grid-column: 3; justify-self: start; }
+.credential-media--left { grid-column: 1; justify-self: end; grid-row: 1; }
+.credential-frame {
+  width: min(380px, 100%);
+  padding: 10px;
+}
+
+/* ------------------------------------------------------------
+   4 · Philosophy I — calligraphy strip on the axis
+   ------------------------------------------------------------ */
+.philosophy { padding-bottom: 0; }
+.philosophy-frame {
+  width: min(320px, 70vw);
+  margin-inline: auto;
+  padding: var(--space-5) var(--space-3);
+  text-align: center;
+}
+.philosophy-title {
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-style: italic;
+  line-height: 1.2;
+}
+.philosophy-couplet {
+  margin-top: var(--space-5);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+.philosophy-body { margin-top: var(--space-4); max-width: 32em; }
+.philosophy-body p + p { margin-top: var(--space-3); }
+.philosophy-band { margin-top: var(--space-6); }
+.philosophy-band img {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------
+   Serving — case study on the spine (ONE component × 10)
+   ------------------------------------------------------------ */
+.serving-lead {
+  width: var(--panel-w);
+  margin: 0 auto var(--space-4);
+  padding: 10px;
+}
+.serving-lead img {
+  width: 100%;
+  aspect-ratio: 3 / 5;   /* slightly narrower than the crops (850:1350) — hides the
+                            rail-card slivers baked into the deck-page crops */
+  object-fit: cover;
+  border-radius: var(--radius-card);
+}
+/* slivers sit right on dark-case crops, left on light-case crops */
+.serving.section-dark .serving-lead img { object-position: left center; }
+.serving.section-light .serving-lead img { object-position: right center; }
+.serving-head {
+  width: max-content;
+  max-width: min(40em, 92%);
+  margin-inline: auto;
+  text-align: center;
+  padding-inline: var(--space-3);
+}
+.serving-title {
+  font-size: clamp(2.25rem, 3.9vw, 3.25rem);
+  font-style: italic;
+  line-height: var(--leading-tight);
+}
+.serving-title--roman { font-style: normal; }
+.serving-client {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h3);
+  color: var(--accent);
+}
+.serving-type {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);
+  color: var(--accent);
+  opacity: 0.85;
+}
+.serving-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--spine-gap) minmax(0, 1fr);
+  row-gap: var(--space-5);
+  align-items: center;
+  max-width: 1100px;
+  margin: var(--space-5) auto 0;
+  padding-inline: var(--space-4);
+}
+.pour { display: contents; }
+.pour--left  > .label-block { grid-column: 1; justify-self: end; }
+.pour--left  > .pour-photo  { grid-column: 3; justify-self: start; }
+.pour--right > .label-block { grid-column: 3; justify-self: start; }
+.pour--right > .pour-photo  { grid-column: 1; justify-self: end; }
+.pour > .label-block { max-width: 30em; width: 100%; margin-top: 0; }
+/* the label rule always points toward the spine */
+.pour--right > .label-block h3::after { margin-left: 0; margin-right: auto; order: -1; }
+.pour-photo {
+  width: min(300px, 100%);
+  aspect-ratio: 342 / 360;
+  transform: translateY(var(--space-4));   /* interlock with the next pour */
+}
+
+/* ------------------------------------------------------------
+   7 · Journey — the spine becomes the trail
+   ------------------------------------------------------------ */
+.journey { overflow: hidden; }
+.journey-title { font-size: var(--text-display); font-style: italic; }
+.journey-sub {
+  margin-top: var(--space-1);
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+}
+.journey-lead { margin-top: var(--space-4); }
+.journey-trail {
+  max-width: 1100px;
+  margin: var(--space-4) auto 0;
+  padding-inline: var(--space-4);
+}
+.trail-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--spine-gap) minmax(0, 1fr);
+  align-items: center;
+  margin-top: var(--space-5);
+}
+.trail-step::before {           /* gold tick crossing the spine */
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  width: 40px;
+  border-top: 1px solid var(--gold);
+}
+.trail-photo { width: min(240px, 100%); aspect-ratio: 320 / 444; }
+.trail-text { max-width: 22em; }
+.trail-text strong { color: var(--accent); }
+.trail-step--photo-left  .trail-photo { grid-column: 1; grid-row: 1; justify-self: end; }
+.trail-step--photo-left  .trail-text  { grid-column: 3; grid-row: 1; justify-self: start; }
+.trail-step--photo-right .trail-photo { grid-column: 3; grid-row: 1; justify-self: start; }
+.trail-step--photo-right .trail-text  { grid-column: 1; grid-row: 1; justify-self: end; text-align: right; }
+.journey-art {
+  width: min(38vw, 460px);
+  margin: var(--space-6) calc(-1 * var(--space-3)) 0 auto;
+}
+.journey-art img { border-radius: var(--radius-card) 0 0 var(--radius-card); }
+
+/* ------------------------------------------------------------
+   10 · Philosophy II — stanzas on the axis
+   ------------------------------------------------------------ */
+.philosophy2 { overflow: hidden; }
+.philosophy2-title {
+  font-size: var(--text-h2);
+  font-style: italic;
+  line-height: 1.35;
+}
+.philosophy2-stanzas { margin-top: var(--space-5); }
+.stanza { max-width: 30em; }
+.stanza + .stanza { margin-top: var(--space-4); }
+.stanza strong { color: var(--accent); }
+.philosophy2-close { margin-top: var(--space-5); }
+.philosophy2-sig {
+  width: 110px;
+  display: block;
+  margin: var(--space-4) auto 0;
+  position: relative;
+}
+.philosophy2-art {
+  position: absolute;
+  left: calc(-1 * var(--space-4));
+  bottom: 0;
+  width: min(26vw, 380px);
+  z-index: -1;
+}
+
+/* ------------------------------------------------------------
+   13 · Process — five rites on the line
+   ------------------------------------------------------------ */
+.process-logo {
+  display: block;
+  width: 120px;
+  margin: 0 auto var(--space-3);
+  mix-blend-mode: lighten;
+  position: relative;
+}
+.process-title { font-size: var(--text-display); font-style: italic; line-height: var(--leading-tight); }
+.process-sub {
+  margin-top: var(--space-1);
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+}
+.process-grid { margin-top: var(--space-5); }
+.process-leadwrap { grid-column: 1; justify-self: end; max-width: 32em; }
+.process-art {
+  grid-column: 3;
+  justify-self: start;
+  width: min(300px, 100%);
+}
+.process-intro {
+  margin-top: var(--space-5);
+  font-weight: 600;
+  color: var(--accent);
+}
+.rite-steps {
+  list-style: none;
+  padding: 0 var(--space-4);
+  max-width: 1100px;
+  margin: var(--space-3) auto 0;
+}
+.rite-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--spine-gap) minmax(0, 1fr);
+  align-items: center;
+  margin-top: var(--space-4);
+}
+.rite-num {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  width: 40px;
+  height: 40px;
+  font-size: 0.8125rem;
+}
+.rite-step strong {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.rite-step em { font-family: var(--font-display); }
+.rite-step--vi-left  strong { grid-column: 1; grid-row: 1; justify-self: end; }
+.rite-step--vi-left  em     { grid-column: 3; grid-row: 1; justify-self: start; }
+.rite-step--vi-right strong { grid-column: 3; grid-row: 1; justify-self: start; }
+.rite-step--vi-right em     { grid-column: 1; grid-row: 1; justify-self: end; }
+
+/* ------------------------------------------------------------
+   16 · Services — the menu on the axis
+   ------------------------------------------------------------ */
+.services-art {
+  width: min(420px, 80vw);
+  margin: 0 auto var(--space-4);
+}
+.services-title { font-size: var(--text-display); font-style: italic; }
+.services-sub { margin-top: var(--space-2); }
+.services-menu { margin-top: var(--space-4); }
+.services-row {
+  max-width: 30em;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-3) 0;
+  text-align: center;
+}
+.services-row + .services-row::before {
+  content: "";
+  display: block;
+  width: 56px;
+  margin: 0 auto var(--space-3);
+  border-top: var(--rule-label);
+}
+.services-row dt {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  color: var(--accent);
+}
+.services-row dd { margin: var(--space-1) 0 0; font-style: italic; }
+.services-note { margin-top: var(--space-5); font-size: var(--text-caption); }
+
+/* ------------------------------------------------------------
+   19 · Contact — the seal
+   ------------------------------------------------------------ */
+.contact { padding-bottom: 0; }
+.contact-upper { position: relative; }
+.contact-upper::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * clamp(6rem, 12vh, 9rem));
+  bottom: calc(-1 * var(--space-5));      /* runs on down to the seal badge */
+  width: 1px;
+  background: var(--gold);
+  z-index: -1;
+}
+.contact-seal { margin: var(--space-4) 0 0; }
+.contact-title { font-size: var(--text-display); font-style: italic; }
+.contact-services {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-4);
+}
+.contact-services li + li { margin-top: var(--space-1); }
+.contact-wish {
+  margin-top: var(--space-4);
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+}
+.contact-rule { margin: var(--space-4) auto 0; }
+.qr-tile {
+  width: max-content;
+  margin: var(--space-5) auto 0;
+  background: var(--cream);
+  border: var(--border-hairline);
+  border-radius: var(--radius-card);
+  padding: 12px;
+  position: relative;
+}
+.contact-list { margin-top: var(--space-4); font-style: normal; }
+.contact-list p + p { margin-top: var(--space-1); }
+.contact-list strong { color: var(--accent); }
+.contact-list a { color: inherit; text-decoration: none; }
+.contact-list a:hover { text-decoration: underline; }
+.contact-art { margin-top: var(--space-6); }
+.contact-art img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------
+   Margin rails — fixed side inscriptions like a mounted scroll.
+   Hidden until the viewport has true margins to dress.
+   ------------------------------------------------------------ */
+.page-rail { display: none; }
+
+@media (min-width: 1240px) {
+  .page-rail {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+    pointer-events: none;
+  }
+  .page-rail--left { left: 36px; }
+  .page-rail--right { right: 36px; }
+  .rail-leaf {
+    width: 10px;
+    height: 10px;
+    background: var(--gold);
+    border-radius: 0 50% 50% 50%;
+    flex: none;
+  }
+  .rail-line {
+    width: 1px;
+    flex: 1;
+    background: var(--gold-soft);
+  }
+  .rail-text {
+    writing-mode: vertical-rl;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    flex: none;
+  }
+  /* right rail fills with scroll where scroll-timelines exist */
+  .rail-progress { position: relative; }
+  .rail-progress::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform-origin: top center;
+    transform: scaleY(0);
+  }
+  @supports (animation-timeline: scroll()) {
+    .rail-progress::before {
+      animation: rail-fill linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes rail-fill {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* Wide screens: let the zigzag breathe into the extra width */
+@media (min-width: 1400px) {
+  :root { --spine-gap: 5rem; }
+  .off-axis, .serving-details, .journey-trail, .rite-steps { max-width: 1280px; }
+  .pour-photo { width: min(340px, 100%); }
+  .trail-photo { width: min(280px, 100%); }
+  .journey-art { width: min(34vw, 540px); }
+  .philosophy2-art { width: min(28vw, 440px); }
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 1024px) {
+  :root { --spine-gap: 2.5rem; --panel-w: min(440px, 86vw); }
+  .pour-photo { width: min(240px, 100%); }
+  .trail-photo { width: min(200px, 100%); }
+  .philosophy2-art { width: 22vw; }
+  .journey-art { width: 32vw; }
+}
+
+@media (max-width: 760px) {
+  /* the axis moves to the left margin — a left-threaded ribbon */
+  .scroll-section { padding-block: var(--space-6); }
+  .scroll-section::before, .contact-upper::before { left: 28px; }
+  .spine-track { justify-content: flex-start; padding-left: 10px; }
+  .spine-track .leaf-badge { width: 36px; height: 36px; font-size: 0.875rem; }
+  .axis-badge { justify-content: flex-start; padding-left: 10px; }
+
+  .on-axis, .serving-head, .epigraph {
+    width: auto;
+    max-width: none;
+    margin-left: calc(28px + var(--space-3));
+    margin-right: var(--space-3);
+    text-align: left;
+    padding-inline: 0;
+  }
+  .epigraph { margin-bottom: var(--space-3); }
+  /* short centered blocks stay centered against the left thread */
+  .services .on-axis, .services-row, .philosophy-frame {
+    margin-inline: calc(28px + var(--space-3)) var(--space-3);
+    text-align: center;
+  }
+  .qr-tile, .contact-rule { margin-left: calc(28px + var(--space-3)); margin-right: auto; }
+
+  .off-axis, .serving-details, .journey-trail, .rite-steps {
+    display: block;
+    max-width: none;
+    padding-left: calc(28px + var(--space-3));
+    padding-right: var(--space-3);
+  }
+  .intro-grid .intro-media { width: min(300px, 100%); }
+  .intro-grid .intro-body { margin-top: var(--space-4); }
+  .credential { display: block; }
+  .credential-media--left, .credential-media--right { margin-bottom: var(--space-3); }
+  .credential + .axis-badge, .axis-badge + .credential { margin-top: var(--space-5); }
+
+  .serving-lead { width: auto; margin-inline: var(--space-3); }
+  .serving-details { margin-top: var(--space-4); }
+  .pour {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .pour .pour-photo { order: -1; transform: none; width: min(300px, 100%); }
+  .pour > .label-block { max-width: none; }
+  .pour--right > .label-block h3::after { margin-left: auto; margin-right: 0; order: 0; }
+
+  .trail-step { display: block; margin-top: var(--space-4); }
+  .trail-step::before { display: none; }
+  .trail-photo { width: min(220px, 100%); margin-bottom: var(--space-2); }
+  .trail-step--photo-right .trail-text { text-align: left; }
+  .trail-text { max-width: none; }
+  .journey-art { width: min(60vw, 320px); margin-right: 0; }
+
+  .philosophy { padding-bottom: 0; }
+  .philosophy2-art { display: none; }
+
+  .process-grid { display: block; }
+  .process-art { margin-top: var(--space-3); }
+  .rite-step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .rite-num { width: 36px; height: 36px; flex: none; }
+  .rite-step strong, .rite-step em { text-align: left; }
+
+  .contact-upper::before { top: calc(-1 * var(--space-6)); }
+  .contact-seal { justify-content: flex-start; padding-left: 10px; }
+}
+
+/* ------------------------------------------------------------
+   Motion — the scroll comes alive (js/scroll.js tags .reveal;
+   everything here is skipped for prefers-reduced-motion)
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Scroll-in reveals. Base = fade + rise; --fade keeps the element's own
+     transform (pour photos); --bead animates the leaf instead. */
+  .reveal {
+    opacity: 0;
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transition-delay: calc(var(--reveal-i, 0) * 110ms);
+  }
+  .reveal:not(.reveal--fade):not(.reveal--bead) { transform: translateY(22px); }
+  .reveal.is-visible { opacity: 1; }
+  .reveal.is-visible:not(.reveal--fade):not(.reveal--bead) { transform: none; }
+
+  /* Chapter beads drop onto the line */
+  .reveal--bead .leaf-badge {
+    transform: scale(0) rotate(-30deg);
+    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: inherit;
+  }
+  .reveal--bead.is-visible .leaf-badge { transform: scale(1) rotate(0); }
+
+  /* Label rules, menu rules and trail ticks sketch themselves in,
+     always growing out of the spine */
+  .label-block h3::after,
+  .services-row::before,
+  .trail-step::before {
+    transition: transform 0.6s ease 0.35s;
+  }
+  .label-block.reveal h3::after { transform: scaleX(0); transform-origin: right center; }
+  .pour--right > .label-block.reveal h3::after { transform-origin: left center; }
+  .label-block.reveal.is-visible h3::after { transform: scaleX(1); }
+  .services-row.reveal::before { transform: scaleX(0); }
+  .services-row.reveal.is-visible::before { transform: scaleX(1); }
+  .trail-step.reveal::before { transform: scaleX(0); }
+  .trail-step.reveal.is-visible::before { transform: scaleX(1); }
+
+  /* Photos breathe on hover */
+  .photo-card img { transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1); }
+  .photo-card:hover img { transform: scale(1.05); }
+  .pour-photo:hover { transform: translateY(calc(var(--space-4) - 8px)); }
+  .credential-frame, .qr-tile { transition: transform 0.5s ease; }
+  .credential-frame:hover, .qr-tile:hover { transform: translateY(-6px); }
+
+  /* Margin rails ease in after the hero ceremony begins */
+  .page-rail {
+    opacity: 0;
+    animation: rail-in 1.4s ease 1.4s forwards;
+  }
+  @keyframes rail-in {
+    to { opacity: 1; }
+  }
+
+  /* Hero opening ceremony — logo, ink-soaked title, then the painting
+     unrolls like a hanging scroll and the spine sprouts from it */
+  .hero-stack { position: relative; z-index: 1; }
+  .hero-stack > * {
+    opacity: 0;
+    animation: rise-in 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  .hero-logo   { animation-delay: 0.1s; }
+  .hero-title  { animation-delay: 0.3s; }
+  .hero-sub    { animation-delay: 1.5s; }
+  .hero-footer { animation-delay: 2.9s; }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Ink-soak title: js/scroll.js splits the h1 into .char spans; each
+     character sharpens like ink absorbing into paper */
+  .hero-title--ink { animation: none; opacity: 1; }
+  .hero-title--ink .char {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(0.14em) scale(1.05);
+    animation: ink-soak 0.9s ease forwards;
+    animation-delay: calc(0.35s + var(--char-i, 0) * 70ms);
+  }
+  @keyframes ink-soak {
+    to { opacity: 1; filter: blur(0); transform: none; }
+  }
+
+  /* The painting unrolls top-to-bottom; a gold roller hairline rides the
+     unrolling edge. Pointer parallax (--mx/--my set by js/scroll.js). */
+  .hero-art {
+    position: relative;
+    animation: unroll 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.9s both;
+    transform: translate3d(calc(var(--mx, 0) * 10px), calc(var(--my, 0) * 7px), 0);
+    transition: transform 0.4s ease-out;
+  }
+  @keyframes unroll {
+    from { opacity: 1; clip-path: inset(0 0 100% 0); }
+    to   { opacity: 1; clip-path: inset(0 0 0% 0); }
+  }
+  .hero-art::after {
+    content: "";
+    position: absolute;
+    left: 4%;
+    right: 4%;
+    top: 0;
+    border-top: 1px solid var(--gold);
+    transform: translateY(-2px);   /* keeps the line inside the clip edge */
+    opacity: 0;
+    animation: roller 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.9s both;
+  }
+  @keyframes roller {
+    0%   { top: 0%;   opacity: 0; }
+    6%   { opacity: 1; }
+    94%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* The spine sprouts from the finished painting */
+  .hero.spine-start::before {
+    transform-origin: top center;
+    animation: sprout 0.7s ease 2.6s both;
+  }
+  @keyframes sprout {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+
+  /* Gold tea leaves drift down the hero — same rounded-leaf as the badge
+     motif, counter-parallaxed against the painting */
+  .hero-leaves {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    transform: translate3d(calc(var(--mx, 0) * -14px), calc(var(--my, 0) * -9px), 0);
+    transition: transform 0.6s ease-out;
+  }
+  .hero-leaves i {
+    position: absolute;
+    top: -4%;
+    width: 13px;
+    height: 13px;
+    background: var(--gold);
+    border-radius: 0 50% 50% 50%;
+    opacity: 0;
+    animation: leaf-fall linear infinite;
+  }
+  .hero-leaves i:nth-child(1) { left: 8%;  animation-duration: 17s; animation-delay: -3s; }
+  .hero-leaves i:nth-child(2) { left: 16%; width: 9px;  height: 9px;  animation-duration: 23s; animation-delay: -12s; }
+  .hero-leaves i:nth-child(3) { left: 27%; animation-duration: 19s; animation-delay: -7s; }
+  .hero-leaves i:nth-child(4) { left: 72%; width: 10px; height: 10px; animation-duration: 21s; animation-delay: -16s; }
+  .hero-leaves i:nth-child(5) { left: 84%; animation-duration: 18s; animation-delay: -1s; }
+  .hero-leaves i:nth-child(6) { left: 92%; width: 8px;  height: 8px;  animation-duration: 25s; animation-delay: -9s; }
+  @keyframes leaf-fall {
+    0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+    6%   { opacity: 0.4; }
+    50%  { transform: translate3d(3vw, 55vh, 0) rotate(150deg); }
+    92%  { opacity: 0.35; }
+    100% { transform: translate3d(-1vw, 108vh, 0) rotate(290deg); opacity: 0; }
+  }
+
+  /* Ink-wash art drifts like hanging paper */
+  .services-art img,
+  .philosophy2-art img {
+    animation: drift 9s ease-in-out infinite alternate;
+  }
+  .hero-art img { animation: drift 9s ease-in-out 3.6s infinite alternate; }
+  @keyframes drift {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-12px); }
+  }
+
+  /* Scroll-driven extras where supported (Chromium): each section's spine
+     draws itself in as the section scrolls into view, and the full-bleed
+     bands settle from a gentle zoom. Static elsewhere. */
+  @supports (animation-timeline: view()) {
+    .scroll-section:not(.spine-start):not(.spine-end)::before {
+      transform-origin: top center;
+      animation: spine-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    @keyframes spine-draw {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+    .philosophy-band { overflow: hidden; }
+    .contact-art { overflow: hidden; }
+    .philosophy-band img, .contact-art img {
+      animation: settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+    @keyframes settle {
+      from { transform: scale(1.07); }
+      to   { transform: scale(1); }
+    }
+  }
+}

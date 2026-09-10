@@ -1,0 +1,417 @@
+/* ============================================================
+   Trà Vũ — Section layouts, in scroll order.
+   Each block maps to a deck ref: design-refs/page-NN.png
+   ============================================================ */
+
+/* ---- 1 · Hero — ref: page-01 ---- */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  border-left: 24px solid var(--green);
+  padding: 0;
+}
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+}
+.hero-logo { width: 130px; }
+.hero-title {
+  margin-top: auto; /* with footer's auto margin: centers title block vertically */
+  font-style: italic;
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+.hero-sub { margin-top: var(--space-2); font-size: 1.25rem; }
+.hero-footer {
+  margin-top: auto;
+  padding-top: var(--space-5);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+}
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; border-left-width: 12px; }
+  .hero-art { min-height: 40vh; }
+}
+
+/* ---- 2 · Intro / invitation letter — ref: page-02 ---- */
+.intro { padding-top: 0; }
+.intro-band { height: 56px; background: var(--green); margin-bottom: var(--space-6); }
+.intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+.intro-media { position: relative; margin-top: var(--space-5); }
+.intro-frame {
+  position: absolute;
+  top: calc(-1 * var(--space-5));
+  left: calc(-1 * var(--space-4));
+  right: var(--space-5);
+  bottom: var(--space-3);
+}
+.intro-media .leaf-badge {
+  position: absolute;
+  top: calc(-1 * var(--space-5) - 22px);
+  left: var(--space-4);
+  z-index: 1;
+}
+.intro-title {
+  font-style: italic;
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  text-align: right;
+  margin-bottom: var(--space-4);
+}
+.intro-body p + p { margin-top: var(--space-3); }
+.intro-rule { margin-top: var(--space-4); width: 180px; }
+.intro-signature {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);
+}
+
+@media (max-width: 760px) {
+  .intro-band { margin-bottom: var(--space-5); }
+  .intro-grid { grid-template-columns: 1fr; gap: var(--space-5); }
+  .intro-frame { right: var(--space-3); }
+}
+
+/* ---- 4 · Philosophy I "Trà Chân" — ref: page-05 ---- */
+.philosophy { padding-bottom: 0; }
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--space-6);
+  align-items: start;
+  position: relative;
+  z-index: 1;
+  margin-bottom: -200px; /* frame overlaps the photo band, as in the deck */
+}
+.philosophy-frame {
+  min-height: 640px;
+  padding: var(--space-5) var(--space-4);
+}
+.philosophy-title {
+  font-size: clamp(3rem, 5.5vw, 4.5rem);
+  line-height: 1.3;
+}
+.philosophy-body {
+  text-align: right;
+  padding-bottom: 240px; /* keep text clear of the pulled-up photo band */
+}
+.philosophy-couplet {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  line-height: 1.5;
+  margin-bottom: var(--space-3);
+}
+.philosophy-body p + p { margin-top: var(--space-3); }
+.philosophy-band img { width: 100%; height: auto; }
+
+@media (max-width: 760px) {
+  .philosophy-grid { grid-template-columns: 1fr; gap: var(--space-4); margin-bottom: var(--space-4); }
+  .philosophy-frame { min-height: 0; }
+  .philosophy-body { text-align: left; padding-bottom: 0; }
+}
+
+/* ---- 7 · Journey — ref: page-08 (rendered dark for alternation) ---- */
+.journey {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+.journey-copy {
+  padding: var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.journey-title {
+  font-style: italic;
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+.journey-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);
+  text-align: right;
+  margin-bottom: var(--space-4);
+}
+.journey-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.journey-strip .photo-card img { aspect-ratio: 320 / 444; }
+.journey-lead { margin-bottom: var(--space-3); }
+.journey-list {
+  list-style: none;
+  padding-left: var(--space-3);
+  border-left: var(--rule-label);
+}
+.journey-art img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 760px) {
+  .journey { grid-template-columns: 1fr; }
+  .journey-art { order: -1; } /* image above text */
+  .journey-art img { height: 40vh; }
+  .journey-copy { padding: var(--space-4) var(--space-3) var(--space-5); }
+  .journey-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+}
+
+/* ---- 10 · Philosophy II — ref: page-11 ---- */
+.philosophy2 {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  min-height: 80vh;
+}
+.philosophy2-copy {
+  padding: var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.philosophy2-title {
+  font-style: italic;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.35;
+  margin-bottom: var(--space-4);
+}
+.philosophy2-list { margin-bottom: var(--space-4); }
+.philosophy2-copy > p { max-width: 62ch; }
+.philosophy2-sig { width: 120px; margin-top: auto; padding-top: var(--space-4); }
+.philosophy2-art img { width: 100%; height: 100%; object-fit: cover; object-position: right top; }
+
+@media (max-width: 760px) {
+  .philosophy2 { grid-template-columns: 1fr; min-height: 0; }
+  .philosophy2-art { order: -1; }
+  .philosophy2-art img { height: 40vh; object-position: right center; }
+  .philosophy2-copy { padding: var(--space-4) var(--space-3) var(--space-5); }
+}
+
+/* ---- 13 · Process — ref: page-14 ---- */
+.process {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  min-height: 100vh;
+}
+.process-copy {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+}
+.process-logo { width: 110px; margin-bottom: var(--space-5); mix-blend-mode: lighten; }
+.process-title {
+  font-style: italic;
+  font-size: clamp(2.25rem, 3.9vw, 3.25rem);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-2);
+}
+.process-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);
+  color: var(--accent);
+  opacity: 0.85;
+  margin-bottom: var(--space-4);
+}
+.process-lead { max-width: 60ch; }
+.process-intro {
+  margin-top: auto;
+  padding-top: var(--space-5);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);
+  color: var(--accent);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--accent);
+}
+.process-steps {
+  list-style: none;
+  padding: var(--space-3) 0 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.process-steps li { display: flex; flex-direction: column; }
+.process-num { color: var(--accent); font-weight: 600; margin-bottom: var(--space-2); }
+.process-steps strong { font-weight: 700; }
+.process-steps em { font-style: normal; color: var(--accent); font-weight: 600; }
+.process-art img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 760px) {
+  .process { grid-template-columns: 1fr; min-height: 0; }
+  .process-art { order: -1; }
+  .process-art img { height: 50vh; }
+  .process-copy { padding: var(--space-4) var(--space-3) var(--space-5); }
+  .process-logo { margin-bottom: var(--space-4); }
+  .process-intro { margin-top: var(--space-4); padding-top: 0; }
+  .process-steps {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    border-left: var(--rule-label);
+    padding-left: var(--space-3);
+  }
+  .process-steps li { flex-direction: row; gap: var(--space-2); align-items: baseline; }
+  .process-num { margin-bottom: 0; }
+}
+
+/* ---- 16 · Services — ref: page-17 ---- */
+.services {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  min-height: 100vh;
+}
+.services-art img { width: 100%; height: 100%; object-fit: cover; object-position: left center; }
+.services-copy {
+  padding: var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.services-title {
+  font-style: italic;
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-2);
+}
+.services-sub {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  margin-bottom: var(--space-4);
+  max-width: 52ch;
+}
+.services-menu { margin: 0 0 var(--space-4); }
+.services-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) 0 var(--space-1);
+  border-bottom: 1px solid var(--gold-soft);
+}
+.services-row dt {
+  font-weight: 700;
+  font-size: var(--text-label);
+  color: var(--accent);
+  white-space: nowrap;
+}
+.services-row dd { margin: 0; text-align: right; }
+.services-note { font-size: var(--text-body); max-width: 60ch; }
+
+@media (max-width: 760px) {
+  .services { grid-template-columns: 1fr; min-height: 0; }
+  .services-art img { height: 40vh; }
+  .services-copy { padding: var(--space-4) var(--space-3) var(--space-5); }
+  .services-row { flex-direction: column; gap: 0; }
+  .services-row dd { text-align: left; }
+}
+
+/* ---- 19 · Contact — ref: page-20 ---- */
+.contact {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  min-height: 100vh;
+}
+.contact-copy {
+  padding: var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-title {
+  font-style: italic;
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-4);
+}
+.contact-services {
+  list-style: disc;
+  padding-left: 1.2em;
+  margin-bottom: var(--space-4);
+}
+.contact-services li + li { margin-top: var(--space-1); }
+.contact-wish {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);
+  color: var(--accent);
+  margin-bottom: var(--space-4);
+}
+.contact-rule {
+  border: 0;
+  border-top: 1px solid var(--accent);
+  width: 100%;
+  margin-bottom: var(--space-4);
+}
+.contact-qr { align-self: center; margin-bottom: var(--space-4); }
+.contact-list { font-style: normal; text-align: right; }
+.contact-list p + p { margin-top: var(--space-1); }
+.contact-list strong { color: var(--accent); font-weight: 700; }
+.contact-list a { color: inherit; text-decoration: none; }
+.contact-art img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 760px) {
+  .contact { grid-template-columns: 1fr; min-height: 0; }
+  .contact-copy { padding: var(--space-5) var(--space-3); }
+  .contact-list { text-align: left; }
+  .contact-art img { height: 50vh; }
+}
+
+/* ---- 3 · Credentials — refs: page-03, page-04 ---- */
+.credential {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+  gap: var(--space-6);
+  align-items: center;
+}
+.credential + .credential { margin-top: var(--space-6); }
+.credential-title {
+  font-style: italic;
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-3);
+}
+.credential-sub {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h3);
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+.credential-body p + p { margin-top: var(--space-3); }
+.credential-body .caption-footer { margin-top: var(--space-4); }
+.credential-frame {
+  position: relative;
+  padding: var(--space-3);
+}
+.credential-frame .leaf-badge {
+  position: absolute;
+  top: -22px;
+  left: var(--space-5);
+}
+.credential-frame .photo-card { border: none; border-radius: 12px; }
+
+@media (max-width: 760px) {
+  .credential { grid-template-columns: 1fr; gap: var(--space-4); }
+  /* image above text on mobile */
+  .credential-media { order: 1; }
+  .credential-body { order: 2; }
+}

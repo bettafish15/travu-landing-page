@@ -1,0 +1,151 @@
+/* ============================================================
+   Trà Vũ — Recurring motifs (CLAUDE.md rule 4)
+   One component per motif; sections reuse, never restyle.
+   ============================================================ */
+
+/* ---- Leaf badge: gold rounded-leaf holding a section number ---- */
+.leaf-badge {
+  width: 44px;
+  height: 44px;
+  background: var(--accent);
+  border-radius: 0 50% 50% 50%;
+  display: grid;
+  place-items: center;
+  color: var(--cream);
+  font-weight: 600;
+}
+
+/* ---- Hairline gold frame: 1px rounded rectangle inset around blocks ---- */
+.hairline-frame {
+  border: var(--border-hairline);
+  border-radius: var(--radius-frame);
+}
+
+/* ---- Photo card: rounded corners + 1px gold border ---- */
+.photo-card {
+  border: var(--border-hairline);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.photo-card img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---- Label block: gold label with short gold rule floated right ----
+   Used by case studies (Bối Cảnh / Hoạt Động / Vai Trò) and credentials. */
+.label-block { margin-top: var(--space-3); }
+.label-block h3 {
+  font-family: var(--font-body); /* labels are Quicksand bold in the deck */
+  font-size: var(--text-label);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+.label-block h3::after {
+  content: "";
+  flex: 0 0 56px;
+  margin-left: auto;
+  border-top: var(--rule-label);
+}
+
+/* ============================================================
+   Case study — ONE component for all 10 projects.
+   .case--dark  → photos left,  text right (green bg)
+   .case--light → text left,   photos right (cream bg)
+   ============================================================ */
+.case-study {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  min-height: 100vh;
+}
+.case--light { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.case--light .case-media { order: 2; }
+.case--light .case-body  { order: 1; }
+
+/* Media column: full-bleed lead photo + floating rail of 3 small photos
+   that straddles the seam between photo and text panel (as in the deck). */
+.case-media { position: relative; }
+.case-photo--lead { position: absolute; inset: 0; }
+.case-photo--lead img { width: 100%; height: 100%; object-fit: cover; }
+.case-photo-rail {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  z-index: 1;
+}
+.case--dark  .case-photo-rail { right: -190px; }
+.case--light .case-photo-rail { left: -190px; }
+.case-photo-rail .case-photo {
+  width: 272px;
+  aspect-ratio: 342 / 360;
+}
+.case-photo-rail .case-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.case-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-5);
+}
+.case--dark  .case-body { padding-left: calc(190px + var(--space-5)); }
+.case--light .case-body { padding-right: calc(190px + var(--space-5)); padding-left: var(--space-6); }
+
+.case-title {
+  font-size: clamp(2.25rem, 3.9vw, 3.25rem);
+  font-style: italic;
+  line-height: var(--leading-tight);
+}
+/* some deck titles are set roman, not italic (e.g. page-07) */
+.case-title--roman { font-style: normal; }
+.case-client {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h3);
+  color: var(--accent);
+}
+.case-type {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);
+  color: var(--accent);
+  opacity: 0.85;
+}
+.case-lines { list-style: none; padding: 0; }
+.case-body .caption-footer {
+  margin-top: var(--space-4);
+  text-align: right;
+}
+
+@media (max-width: 1024px) {
+  .case--dark  .case-photo-rail { right: -130px; }
+  .case--light .case-photo-rail { left: -130px; }
+  .case--dark  .case-body { padding-left: calc(130px + var(--space-4)); }
+  .case--light .case-body { padding-right: calc(130px + var(--space-4)); padding-left: var(--space-5); }
+  .case-photo-rail .case-photo { width: 200px; }
+}
+@media (max-width: 760px) {
+  .case-study { grid-template-columns: 1fr; min-height: 0; }
+  /* CLAUDE.md: mobile stacks image ABOVE text in both modes */
+  .case--light .case-media { order: 1; }
+  .case--light .case-body  { order: 2; }
+  .case-media { min-height: 60vh; }
+  .case-photo--lead { position: relative; inset: auto; height: 60vh; }
+  .case-photo-rail {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: calc(-1 * var(--space-4));
+    padding-inline: var(--space-3);
+  }
+  .case-photo-rail .case-photo { width: calc((100% - 2 * var(--space-2)) / 3); }
+  .case--dark .case-body, .case--light .case-body { padding: var(--space-4) var(--space-3) var(--space-5); }
+}

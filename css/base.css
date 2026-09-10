@@ -1,0 +1,44 @@
+/* ============================================================
+   Trà Vũ — Base
+   Reset, body defaults, shared layout and text utilities.
+   Load order: tokens.css → base.css → components.css → sections.css
+   ============================================================ */
+
+* { margin: 0; box-sizing: border-box; }
+
+img { display: block; max-width: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  background: var(--bg-light);
+}
+
+section { padding: var(--section-pad-y) 0; }
+
+.container {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+/* Italic gold caption footer: · Hồ sơ dự án tiêu biểu · */
+.caption-footer {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-caption);
+  color: var(--accent);
+}
+
+/* Short horizontal gold rule (signature separators etc.) */
+.gold-rule {
+  border: 0;
+  border-top: var(--rule-label);
+  width: 72px;
+}
+
+@media (max-width: 760px) {
+  section { padding: var(--space-5) 0; }
+  .container { padding-inline: var(--space-3); }
+}
